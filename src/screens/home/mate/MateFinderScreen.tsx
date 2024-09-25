@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
+import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import { mateNavigations } from '@/constants';
-import { MateStackParamList } from '@/navigations/home/MateNavigator';
+import { MateStackParamList, TabParamList } from '@/navigations/home/MateNavigator';
 import { MateFinderData } from '@/types/domain';
 import PostItem from '@/components/common/PostItem';
 
-type Props = StackScreenProps<MateStackParamList, typeof mateNavigations.MATE_FINDER>;
+type Props = CompositeScreenProps<
+  MaterialTopTabScreenProps<TabParamList, typeof mateNavigations.MATE_FINDER>,
+  StackScreenProps<MateStackParamList>
+>;
 
 const dummyPosts: (MateFinderData & { id: string, image: string })[] = Array(5).fill(null).map((_, index) => ({
   id: index.toString(),
@@ -21,7 +26,7 @@ const dummyPosts: (MateFinderData & { id: string, image: string })[] = Array(5).
   personal_preferences: '초보자 환영'
 }));
 
-const MateFinderScreen = ({ navigation, route }: Props) => {
+const MateFinderScreen: React.FC<Props> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<'mate' | 'mentorMentee'>('mate');
 
   const renderPost = ({ item }: { item: MateFinderData & { id: string, image: string } }) => (
@@ -40,21 +45,6 @@ const MateFinderScreen = ({ navigation, route }: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[styles.tab, activeTab === 'mate' && styles.activeTab]}
-          onPress={() => setActiveTab('mate')}
-        >
-          <Text style={[styles.tabText, activeTab === 'mate' && styles.activeTabText]}>Mate 찾기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, activeTab === 'mentorMentee' && styles.activeTab]}
-          onPress={() => setActiveTab('mentorMentee')}
-        >
-          <Text style={[styles.tabText, activeTab === 'mentorMentee' && styles.activeTabText]}>멘토멘티</Text>
-        </TouchableOpacity>
-      </View>
-
       <FlatList
         data={dummyPosts}
         renderItem={renderPost}

@@ -2,7 +2,11 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 
-const CustomTabBar: React.FC<MaterialTopTabBarProps> = ({ state, descriptors, navigation }) => {
+const CustomTabBar: React.FC<MaterialTopTabBarProps> = ({ 
+  state, 
+  descriptors, 
+  navigation
+}) => {
   return (
     <View style={styles.tabBar}>
       {state.routes.map((route, index) => {
@@ -45,9 +49,10 @@ const CustomTabBar: React.FC<MaterialTopTabBarProps> = ({ state, descriptors, na
             onPress={onPress}
             style={styles.tabItem}
           >
-            <Text style={[styles.tabText, isFocused && styles.tabTextFocused]}>
+            <Text style={[styles.tabText, isFocused ? styles.tabTextFocused : {}]}>
               {labelText}
             </Text>
+            {isFocused && <View style={styles.indicator} />}
           </TouchableOpacity>
         );
       })}
@@ -70,10 +75,18 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontSize: 14,
+    fontWeight: 'bold',
     color: '#888',
   },
   tabTextFocused: {
     color: '#007AFF',
+  },
+  indicator: {
+    position: 'absolute',
+    bottom: 0,
+    height: 2,
+    width: '80%',
+    backgroundColor: '#007AFF',
   },
 });
 

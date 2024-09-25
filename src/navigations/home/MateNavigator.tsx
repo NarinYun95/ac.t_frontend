@@ -1,87 +1,50 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { TouchableOpacity, Text } from 'react-native';
+import { createStackNavigator, StackScreenProps } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator, MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import MateFinderScreen from '@/screens/home/mate/MateFinderScreen';
 import MentorMenteeScreen from '@/screens/home/mate/MentorMenteeScreen';
 import MatePostDetailScreen from '@/screens/home/mate/MatePostDetailScreen';
 import MatePostCreateScreen from '@/screens/home/mate/MatePostCreateScreen';
 import { mateNavigations } from '@/constants';
 import CustomTabBar from '@/components/CustomTabBar';
+import { NavigatorScreenParams, CompositeScreenProps } from '@react-navigation/native';
 
-const Tab = createMaterialTopTabNavigator();
-const MateFinderStack = createStackNavigator();
-const MentorMenteeStack = createStackNavigator();
-const RootStack = createStackNavigator();
+const Tab = createMaterialTopTabNavigator<TabParamList>();
+const RootStack = createStackNavigator<MateStackParamList>();
 
-export type MateStackParamList = {
-  [mateNavigations.MATE_TAB]: undefined;
+export type TabParamList = {
   [mateNavigations.MATE_FINDER]: undefined;
   [mateNavigations.MENTOR_MENTEE]: undefined;
+};
+
+export type MateStackParamList = {
+  [mateNavigations.MATE_TAB]: NavigatorScreenParams<TabParamList>;
   [mateNavigations.POST_DETAIL]: { postId: string; postType: 'mate' | 'mentorMentee' };
   [mateNavigations.CREATE_POST]: { postType: 'mate' | 'mentorMentee' };
 };
 
-// Wrapper 함수들
-const MateFinderScreenWrapper = (props: any) => <MateFinderScreen {...props} />;
-const MentorMenteeScreenWrapper = (props: any) => <MentorMenteeScreen {...props} />;
-const MatePostDetailScreenWrapper = (props: any) => <MatePostDetailScreen {...props} />;
-const MatePostCreateScreenWrapper = (props: any) => <MatePostCreateScreen {...props} />;
-
-function MateFinderStackNavigator() {
-  return (
-    <MateFinderStack.Navigator>
-      <MateFinderStack.Screen 
-        name={mateNavigations.MATE_FINDER}
-        component={MateFinderScreenWrapper}
-        options={{ headerShown: false }}
-      />
-      <MateFinderStack.Screen 
-        name={mateNavigations.POST_DETAIL}
-        component={MatePostDetailScreenWrapper}
-        options={{ title: 'Mate 상세' }}
-      />
-      <MateFinderStack.Screen 
-        name={mateNavigations.CREATE_POST}
-        component={MatePostCreateScreenWrapper}
-        options={{ title: 'Mate 글쓰기' }}
-      />
-    </MateFinderStack.Navigator>
-  );
-}
-
-function MentorMenteeStackNavigator() {
-  return (
-    <MentorMenteeStack.Navigator>
-      <MentorMenteeStack.Screen 
-        name={mateNavigations.MENTOR_MENTEE}
-        component={MentorMenteeScreenWrapper}
-        options={{ headerShown: false }}
-      />
-      <MentorMenteeStack.Screen 
-        name={mateNavigations.POST_DETAIL}
-        component={MatePostDetailScreenWrapper}
-        options={{ title: '멘토멘티 상세' }}
-      />
-      <MentorMenteeStack.Screen 
-        name={mateNavigations.CREATE_POST}
-        component={MatePostCreateScreenWrapper}
-        options={{ title: '멘토멘티 글쓰기' }}
-      />
-    </MentorMenteeStack.Navigator>
-  );
-}
+export type MateScreenProps = CompositeScreenProps<
+  MaterialTopTabScreenProps<TabParamList>,
+  StackScreenProps<MateStackParamList>
+>;
 
 function TabNavigator() {
   return (
-    <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+    <Tab.Navigator 
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        swipeEnabled: true,
+      }}
+    >
       <Tab.Screen 
-        name="MateFinderTab" 
-        component={MateFinderStackNavigator} 
+        name={mateNavigations.MATE_FINDER}
+        component={MateFinderScreen} 
         options={{ title: 'Mate 찾기' }}
       />
       <Tab.Screen 
-        name="MentorMenteeTab" 
-        component={MentorMenteeStackNavigator} 
+        name={mateNavigations.MENTOR_MENTEE}
+        component={MentorMenteeScreen} 
         options={{ title: '멘토멘티' }}
       />
     </Tab.Navigator>
@@ -95,6 +58,30 @@ const MateNavigator = () => {
         name={mateNavigations.MATE_TAB} 
         component={TabNavigator} 
         options={{ headerShown: false }}
+      />
+      <RootStack.Screen 
+        name={mateNavigations.POST_DETAIL}
+        component={MatePostDetailScreen}
+        options={({ navigation }) => ({
+          headerTitle: '',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+              <Text style={{ fontSize: 16, color: '#007AFF' }}>{'<'} 뒤로</Text>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <RootStack.Screen 
+        name={mateNavigations.CREATE_POST}
+        component={MatePostCreateScreen}
+        options={({ navigation }) => ({
+          headerTitle: '',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+              <Text style={{ fontSize: 16, color: '#007AFF' }}>{'<'} 뒤로</Text>
+            </TouchableOpacity>
+          ),
+        })}
       />
     </RootStack.Navigator>
   );

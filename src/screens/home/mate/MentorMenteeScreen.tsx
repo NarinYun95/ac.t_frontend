@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
+import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import { mateNavigations } from '@/constants';
-import { MateStackParamList } from '@/navigations/home/MateNavigator';
+import { MateStackParamList, TabParamList } from '@/navigations/home/MateNavigator';
 import PostItem from '@/components/common/PostItem';
 import { MentorMenteeData } from '@/types/domain';
 
-type MentorMenteeScreenProps = StackScreenProps<MateStackParamList, typeof mateNavigations.MENTOR_MENTEE>;
+type Props = CompositeScreenProps<
+  MaterialTopTabScreenProps<TabParamList, typeof mateNavigations.MENTOR_MENTEE>,
+  StackScreenProps<MateStackParamList>
+>;
 
 const dummyMentorMenteePosts: (MentorMenteeData & { id: string, image: string })[] = Array(5).fill(null).map((_, index) => ({
   id: index.toString(),
@@ -20,11 +25,11 @@ const dummyMentorMenteePosts: (MentorMenteeData & { id: string, image: string })
   maxMentees: 3
 }));
 
-function MentorMenteeScreen({ navigation }: MentorMenteeScreenProps) {
+const MentorMenteeScreen: React.FC<Props> = ({ navigation }) => {
   const renderPost = ({ item }: { item: MentorMenteeData & { id: string, image: string } }) => (
     <PostItem
       {...item}
-      onPress={(id) => navigation.push(mateNavigations.POST_DETAIL, { postId: id , postType: 'mentorMentee'})}
+      onPress={(id) => navigation.push(mateNavigations.POST_DETAIL, { postId: id, postType: 'mentorMentee' })}
       renderSpecificFields={() => (
         <>
           <Text>가격: {item.price}원</Text>
@@ -42,6 +47,15 @@ function MentorMenteeScreen({ navigation }: MentorMenteeScreenProps) {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
       />
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => navigation.push(mateNavigations.CREATE_POST, { postType: 'mentorMentee' })}
+      >
+        <Image
+          source={require('@/assets/icons/edit.png')}
+          style={styles.fabIcon}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -53,6 +67,23 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     padding: 10,
+  },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    backgroundColor: '#007AFF',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+  },
+  fabIcon: {
+    width: 24,
+    height: 24,
+    tintColor: 'white', // 아이콘 색상을 흰색으로 변경
   },
 });
 
