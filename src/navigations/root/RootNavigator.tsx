@@ -3,7 +3,7 @@ import useAuth from "@/hooks/queries/useAuth";
 import TabNavigator from "../tab/TabNavigator";
 
 function RootNavigator(){
-    const {isLogin} = useAuth();
+    const isLogin = true;
 
     return <>{isLogin ? <TabNavigator/> : <AuthStackNavigator/>}</>
 }

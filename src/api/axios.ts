@@ -5,10 +5,11 @@ import { setEncryptStorage } from '@/utils';
 import Config from 'react-native-config';
 import { storageKeys } from '@/constants';
 import { Platform } from 'react-native';
+import { handleApiError, ResponseError } from '@/utils/errorHandler';
 
 
 const axiosInstance = axios.create({
-  baseURL: "http://34.64.33.25:443",
+  baseURL: "https://34.64.33.25:443",
   // React Native에서는 httpsAgent 대신 다른 방식으로 SSL 검증을 비활성화합니다
   withCredentials: true, // 필요한 경우 쿠키 사용
 });
@@ -61,15 +62,8 @@ axiosInstance.interceptors.response.use(
       console.error('요청 설정 중 오류가 발생했습니다:', error.message);
     }
 
-    // 에러 메시지 반환
-    let errorMessage = 'An unknown error occurred';
-    if (axios.isAxiosError(error) && error.response) {
-      if (typeof error.response.data === 'string') {
-        errorMessage = error.response.data;
-      } else if (typeof error.response.data === 'object' && error.response.data !== null) {
-        errorMessage = JSON.stringify(error.response.data);
-      }
-    }
+    // handleApiError 함수를 사용하여 에러 메시지 생성
+    const errorMessage = handleApiError(error as ResponseError);
     return Promise.reject(new Error(errorMessage));
   }
 );

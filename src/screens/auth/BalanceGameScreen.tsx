@@ -17,7 +17,7 @@ function BalanceGameScreen() {
   };
 
   const handleSubmit = () => {
-    fetch('http://34.64.33.25:443/api/auth/balance-game', {
+    fetch('https://34.64.33.25:443/api/auth/balance-game', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

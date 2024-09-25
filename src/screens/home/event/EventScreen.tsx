@@ -1,7 +1,14 @@
+import { homeNavigations } from '@/constants';
+import { HomeStackParamList } from '@/navigations/home/HomeStackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const EventScreen = () => {
+type EventScreenProps = StackScreenProps<HomeStackParamList,
+  typeof homeNavigations.EVENT
+>;
+
+const EventScreen = ({navigation}:EventScreenProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Event Screen</Text>

@@ -33,4 +33,23 @@ interface Profile {
   loginType: 'email' | 'kakao' | 'apple';
 }
 
-export type {MarkerColor, Category, ImageUri, Profile, Marker, Post};
+interface CommonPostData {
+  title: string;
+  description: string;
+  locationTag: string;
+  activityTag: string;
+  date: string;
+}
+
+interface MateFinderData extends CommonPostData {
+  hashtags: string[];
+  maxParticipants: number;
+  personal_preferences: string;
+}
+
+interface MentorMenteeData extends CommonPostData {
+  price: number;
+  maxMentees: number;
+}
+
+export type {MarkerColor, Category, ImageUri, Profile, Marker, Post,CommonPostData, MateFinderData, MentorMenteeData};

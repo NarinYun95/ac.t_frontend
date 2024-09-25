@@ -1,3 +1,10 @@
+import { isMatePostFormValues } from '@/screens/home/mate/MatePostCreateScreen';
+import { MateFinderData, MentorMenteeData } from '@/types/domain';
+
+type MatePostFormValues = Omit<MateFinderData, 'date'>;
+type MentorMenteePostFormValues = Omit<MentorMenteeData, 'date'>;
+type PostFormValues = MatePostFormValues | MentorMenteePostFormValues;
+
 type UserInformation = {
   email: string;
   password: string;
@@ -7,6 +14,7 @@ type UserAdditionalInfo = {
   nickname: string;
   bio: string;
 }
+
 
 function validateUser(values: UserInformation) {
   const errors = {
@@ -65,4 +73,48 @@ function validateAdditionalInfo (values:UserAdditionalInfo) {
 return errors;
 }
 
-export { validateLogin, validateSignup, validateAdditionalInfo};
+
+function validateCreatePost(values: PostFormValues): Record<string, string> {
+  const errors: Record<string, string> = {};
+
+  if (!values.title) {
+    errors.title = '제목을 입력해주세요.';
+  }
+
+  if (!values.description) {
+    errors.description = '설명을 입력하세요.';
+  }
+
+  if (!values.locationTag) {
+    errors.locationTag = '위치를 입력하세요.';
+  }
+
+  if (!values.activityTag) {
+    errors.activityTag = '활동을 입력하세요.';
+  }
+
+  if (isMatePostFormValues(values)) {
+    // MatePostFormValues인 경우
+    if (!values.hashtags || values.hashtags.length === 0) {
+      errors.hashtags = '최소 하나의 해시태그를 입력해주세요.';
+    }
+    if (!values.maxParticipants || values.maxParticipants < 1) {
+      errors.maxParticipants = '유효한 참가자 수를 입력해주세요.';
+    }
+    if (!values.personal_preferences) {
+      errors.personal_preferences = '개인 선호사항을 입력해주세요.';
+    }
+  } else {
+    // MentorMenteePostFormValues인 경우
+    if (!values.price || values.price < 0) {
+      errors.price = '유효한 가격을 입력해주세요.';
+    }
+    if (!values.maxMentees || values.maxMentees < 1) {
+      errors.maxMentees = '유효한 멘티 수를 입력해주세요.';
+    }
+  }
+
+  return errors;
+}
+
+export { validateLogin, validateSignup, validateAdditionalInfo, validateCreatePost };

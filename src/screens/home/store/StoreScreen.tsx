@@ -1,5 +1,12 @@
+import { homeNavigations } from '@/constants';
+import { HomeStackParamList } from '@/navigations/home/HomeStackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+
+type HomeScreenProps = StackScreenProps<HomeStackParamList,
+  typeof homeNavigations.STORE
+>;
 
 const StoreScreen = () => {
   return (

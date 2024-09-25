@@ -1,7 +1,14 @@
+import { homeNavigations } from '@/constants';
+import { HomeStackParamList } from '@/navigations/home/HomeStackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const ActivityScreen = () => {
+type ActivityScreenProps = StackScreenProps<HomeStackParamList,
+  typeof homeNavigations.ACTIVITY
+>;
+
+const ActivityScreen = ({navigation}:ActivityScreenProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Activity Screen</Text>

@@ -1,14 +1,24 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from '../../screens/bar/home/HomeScreen';
-import ActivityScreen from '../../screens/home/activity/ActivityScreen';
-import PostScreen from '../../screens/home/post/PostScreen';
-import StoreScreen from '../../screens/home/store/StoreScreen';
-import EventScreen from '../../screens/home/event/EventScreen';
-import MateScreen from '../../screens/home/mate/MateScreen';
+import HomeScreen from '@/screens/bar/home/HomeScreen';
+import ActivityScreen from '@/screens/home/activity/ActivityScreen';
+import StoreScreen from '@/screens/home/store/StoreScreen';
+import EventScreen from '@/screens/home/event/EventScreen';
+import { homeNavigations } from '@/constants';
+import MateNavigator from '@/navigations/home/MateNavigator';
+import PostScreen from '@/screens/home/post/PostScreen';
 
-const HomeStack = createStackNavigator();
+export type HomeStackParamList = {
+  [homeNavigations.HOME_MAIN]: undefined;
+  [homeNavigations.ACTIVITY]: undefined;
+  [homeNavigations.POST]: undefined;
+  [homeNavigations.MATE]: undefined;
+  [homeNavigations.STORE]: undefined;
+  [homeNavigations.EVENT]: undefined;
+};
+
+const HomeStack = createStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
   return (
@@ -17,34 +27,34 @@ const HomeStackNavigator = () => {
         headerTitleAlign: 'center',
       }}>
       <HomeStack.Screen
-        name="HomeScreen"
+        name={homeNavigations.HOME_MAIN}
         component={HomeScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <HomeStack.Screen
-        name="Activity"
+        name={homeNavigations.ACTIVITY}
         component={ActivityScreen}
-        options={{headerTitle: '액티비티'}}
+        options={{ headerTitle: '액티비티' }}
       />
       <HomeStack.Screen
-        name="Post"
+        name={homeNavigations.POST}
         component={PostScreen}
-        options={{headerTitle: '게시판'}}
+        options={{ headerTitle: '게시판' }}
       />
       <HomeStack.Screen
-        name="Mate"
-        component={MateScreen}
-        options={{headerTitle: '메이트'}}
+        name={homeNavigations.MATE}
+        component={MateNavigator}
+        options={{ headerShown: false }}
       />
       <HomeStack.Screen
-        name="Store"
+        name={homeNavigations.STORE}
         component={StoreScreen}
-        options={{headerTitle: '스토어'}}
+        options={{ headerTitle: '스토어' }}
       />
       <HomeStack.Screen
-        name="Event"
+        name={homeNavigations.EVENT}
         component={EventScreen}
-        options={{headerTitle: '이벤트'}}
+        options={{ headerTitle: '이벤트' }}
       />
     </HomeStack.Navigator>
   );

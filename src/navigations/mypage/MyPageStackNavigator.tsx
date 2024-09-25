@@ -1,10 +1,10 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import MyPageScreen from '../../screens/bar/mypage/MyPageScreen';
-import ProfileScreen from '../../screens/bar/mypage/button/ProfileScreen';
-import TravelRecordsScreen from '../../screens/bar/mypage/button/TravelRecordsScreen';
-import BadgesScreen from '../../screens/bar/mypage/button/BadgesScreen';
-import PreferencesScreen from '../../screens/bar/mypage/button/PreferencesScreen';
+import MyPageScreen from '@/screens/bar/mypage/MyPageScreen';
+import ProfileScreen from '@/screens/bar/mypage/button/ProfileScreen';
+import TravelRecordsScreen from '@/screens/bar/mypage/button/TravelRecordsScreen';
+import BadgesScreen from '@/screens/bar/mypage/button/BadgesScreen';
+import PreferencesScreen from '@/screens/bar/mypage/button/PreferencesScreen';
 
 const MyPageStack = createStackNavigator();
 

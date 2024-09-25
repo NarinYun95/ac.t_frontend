@@ -38,7 +38,7 @@ function AdditionalInfoScreen({ navigation }: AdditionalInfoScreenProps) {
     }
   
     try {
-      const response = await fetch('http://34.64.33.25:443/api/auth/additional-info', {
+      const response = await fetch('https://34.64.33.25:443/api/auth/additional-info', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

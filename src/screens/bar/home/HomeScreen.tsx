@@ -1,8 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {colors} from '../../../constants/colors';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { colors } from '@/constants/colors';
+import { StackScreenProps } from '@react-navigation/stack';
+import { HomeStackParamList } from '@/navigations/home/HomeStackNavigator';
+import { homeNavigations } from '@/constants';
 
-const HomeScreen = ({navigation}) => {
+type HomeScreenProps = StackScreenProps<HomeStackParamList,
+  typeof homeNavigations.HOME
+>;
+
+const HomeScreen = ({ navigation }: HomeScreenProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.actText}>Ac.T는 공사중 :D</Text>
@@ -14,7 +21,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.button}
           onPress={() => navigation.navigate('Activity')}>
           <Image
-            source={require('../../../assets/icons/home/activity.png')}
+            source={require('@/assets/icons/home/activity.png')}
             style={styles.buttonImage}
           />
           <Text style={styles.buttonText}>액티비티</Text>
@@ -23,7 +30,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.button}
           onPress={() => navigation.navigate('Post')}>
           <Image
-            source={require('../../../assets/icons/home/post.png')}
+            source={require('@/assets/icons/home/post.png')}
             style={styles.buttonImage}
           />
           <Text style={styles.buttonText}>게시판</Text>
@@ -34,7 +41,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.button}
           onPress={() => navigation.navigate('Mate')}>
           <Image
-            source={require('../../../assets/icons/home/mate.png')}
+            source={require('@/assets/icons/home/mate.png')}
             style={styles.buttonImage}
           />
           <Text style={styles.buttonText}>메이트</Text>
@@ -43,7 +50,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.button}
           onPress={() => navigation.navigate('Store')}>
           <Image
-            source={require('../../../assets/icons/home/store.png')}
+            source={require('@/assets/icons/home/store.png')}
             style={styles.buttonImage}
           />
           <Text style={styles.buttonText}>스토어</Text>
@@ -52,7 +59,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.button}
           onPress={() => navigation.navigate('Event')}>
           <Image
-            source={require('../../../assets/icons/home/event.png')}
+            source={require('@/assets/icons/home/event.png')}
             style={styles.buttonImage}
           />
           <Text style={styles.buttonText}>이벤트</Text>

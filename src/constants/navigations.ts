@@ -9,12 +9,20 @@ const authNavigations = {
 } as const;
 
 const homeNavigations = {
-HOME: 'Home',
-ACTIVITY: 'Activity',
-EVENT: 'Event',
-MATE: 'Mate',
-POST: 'Post',
-STORE: 'Store',
+  HOME_MAIN: 'HomeMain',
+  ACTIVITY: 'Activity',
+  POST: 'Post',
+  MATE: 'Mate',
+  STORE: 'Store',
+  EVENT: 'Event',
 } as const
 
-export {authNavigations, homeNavigations}
+const mateNavigations = {
+  MATE_TAB: 'MateTab',
+  MATE_FINDER: 'MateFinder',
+  MENTOR_MENTEE: 'MentorMentee',
+  POST_DETAIL: 'PostDetail',
+  CREATE_POST: 'CreatePost',
+} as const;
+
+export { authNavigations, homeNavigations, mateNavigations }
