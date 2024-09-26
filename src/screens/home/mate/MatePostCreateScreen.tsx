@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { MateStackParamList } from '@/navigations/home/MateNavigator';
 import { mateNavigations } from '@/constants';
@@ -48,23 +48,38 @@ function MatePostCreateScreen({ route, navigation }: MatePostCreateScreenProps) 
   });
 
   const onSubmit = () => {
-    // 현재 시간을 ISO 문자열로 생성
-    const currentDate = new Date().toISOString();
-
-    // API 호출 로직
-    const postData = {
-      ...values,
-      date: currentDate, // 현재 시간을 추가
-      type: postType,
-    };
-    console.log('게시글 생성:', postData);
-    // TODO: API 호출 구현
-    navigation.goBack();
+    Alert.alert(
+      "게시글 작성",
+      "게시하시겠습니까?",
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        {
+          text: "예",
+          onPress: () => {
+            const currentDate = new Date().toISOString();
+            const postData = {
+              ...values,
+              date: currentDate,
+              type: postType,
+            };
+            console.log('게시글 생성:', postData);
+            // TODO: API 호출 구현
+            Alert.alert("알림", "업로드가 완료되었습니다.", [
+              { text: "확인", onPress: () => navigation.goBack() }
+            ]);
+          }
+        }
+      ]
+    );
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.headerText}>{postType === 'mate' ? 'Mate 찾기' : '멘토멘티'} 게시글 작성</Text>
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.headerText}>{postType === 'mate' ? 'Mate 찾기' : '멘토멘티'} 게시글 작성</Text>
 
       {/* 공통 필드 */}
       <View style={styles.inputContainer}>
@@ -167,13 +182,16 @@ function MatePostCreateScreen({ route, navigation }: MatePostCreateScreenProps) 
           </View>
         </>
       )}
-
-      <TouchableOpacity style={styles.button} onPress={() => handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>게시글 작성</Text>
-      </TouchableOpacity>
     </ScrollView>
+    <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => handleSubmit(onSubmit)}>
+          <Text style={styles.buttonText}>게시글 작성</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -226,6 +244,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 8,
     textAlign: 'center',
+  },
+  buttonContainer: {
+    padding: 16,
+    backgroundColor: '#f0f0f0',
+  },
+  scrollView: {
+    flex: 1,
+    padding: 16,
   },
 });
 

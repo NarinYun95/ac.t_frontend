@@ -1,11 +1,12 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image} from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image } from 'react-native';
 
 import MyFavoriteScreen from '@/screens/bar/myfavorite/MyFavoriteScreen';
-import ChatScreen from '@/screens/bar/chat/ChatScreen';
+import ChatRoomStack from './ChatRoomStack';
 import HomeStackNavigator from '../home/HomeStackNavigator';
 import MyPageStackNavigator from '../mypage/MyPageStackNavigator';
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -39,7 +40,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Chat"
-        component={ChatScreen}
+        component={ChatRoomStack}
         options={{
           tabBarIcon: ({color, size}) => (
             <Image

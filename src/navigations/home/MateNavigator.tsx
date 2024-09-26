@@ -9,6 +9,8 @@ import MatePostCreateScreen from '@/screens/home/mate/MatePostCreateScreen';
 import { mateNavigations } from '@/constants';
 import CustomTabBar from '@/components/CustomTabBar';
 import { NavigatorScreenParams, CompositeScreenProps } from '@react-navigation/native';
+import { ChatRoomStackParamList } from '../tab/ChatRoomStack';
+import ChatRoomScreen from '@/screens/bar/chat/ChatScreen';
 
 const Tab = createMaterialTopTabNavigator<TabParamList>();
 const RootStack = createStackNavigator<MateStackParamList>();
@@ -22,6 +24,7 @@ export type MateStackParamList = {
   [mateNavigations.MATE_TAB]: NavigatorScreenParams<TabParamList>;
   [mateNavigations.POST_DETAIL]: { postId: string; postType: 'mate' | 'mentorMentee' };
   [mateNavigations.CREATE_POST]: { postType: 'mate' | 'mentorMentee' };
+  ChatRoom: ChatRoomStackParamList['ChatRoom'];
 };
 
 export type MateScreenProps = CompositeScreenProps<
@@ -31,20 +34,20 @@ export type MateScreenProps = CompositeScreenProps<
 
 function TabNavigator() {
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
         swipeEnabled: true,
       }}
     >
-      <Tab.Screen 
+      <Tab.Screen
         name={mateNavigations.MATE_FINDER}
-        component={MateFinderScreen} 
+        component={MateFinderScreen}
         options={{ title: 'Mate 찾기' }}
       />
-      <Tab.Screen 
+      <Tab.Screen
         name={mateNavigations.MENTOR_MENTEE}
-        component={MentorMenteeScreen} 
+        component={MentorMenteeScreen}
         options={{ title: '멘토멘티' }}
       />
     </Tab.Navigator>
@@ -54,12 +57,12 @@ function TabNavigator() {
 const MateNavigator = () => {
   return (
     <RootStack.Navigator>
-      <RootStack.Screen 
-        name={mateNavigations.MATE_TAB} 
-        component={TabNavigator} 
+      <RootStack.Screen
+        name={mateNavigations.MATE_TAB}
+        component={TabNavigator}
         options={{ headerShown: false }}
       />
-      <RootStack.Screen 
+      <RootStack.Screen
         name={mateNavigations.POST_DETAIL}
         component={MatePostDetailScreen}
         options={({ navigation }) => ({
@@ -71,7 +74,7 @@ const MateNavigator = () => {
           ),
         })}
       />
-      <RootStack.Screen 
+      <RootStack.Screen
         name={mateNavigations.CREATE_POST}
         component={MatePostCreateScreen}
         options={({ navigation }) => ({
@@ -82,6 +85,11 @@ const MateNavigator = () => {
             </TouchableOpacity>
           ),
         })}
+      />
+      <RootStack.Screen
+        name="ChatRoom"
+        component={ChatRoomScreen}
+        options={{ headerShown: false }}
       />
     </RootStack.Navigator>
   );

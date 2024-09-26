@@ -25,4 +25,9 @@ const mateNavigations = {
   CREATE_POST: 'CreatePost',
 } as const;
 
-export { authNavigations, homeNavigations, mateNavigations }
+const chatNavigations = {
+  CHAT_LIST: 'ChatList',
+  CHAT_ROOM: 'ChatRoom',
+} as const;
+
+export { authNavigations, homeNavigations, mateNavigations, chatNavigations }
