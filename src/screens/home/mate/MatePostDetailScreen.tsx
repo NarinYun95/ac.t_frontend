@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { MateStackParamList } from '@/navigations/home/MateNavigator';
@@ -9,28 +9,35 @@ type MatePostDetailScreenProps = StackScreenProps<MateStackParamList, typeof mat
 
 function MatePostDetailScreen({ route, navigation }: MatePostDetailScreenProps) {
   const { postId, postType } = route.params;
+  const [userChatRooms, setUserChatRooms] = useState<string[]>([]);
 
   // 더미 데이터 (실제 구현 시 API에서 데이터를 가져와야 함)
-  const post: MateFinderData | MentorMenteeData = postType === 'mate' 
+  const post: MateFinderData | MentorMenteeData = postType === 'mate'
     ? {
-        title: 'Mate 게시글 제목',
-        description: '게시글 내용\n상세 설명 / 준비물 / 난이도 등',
-        locationTag: '서울',
-        activityTag: '등산',
-        date: '2024-09-15',
-        hashtags: ['#등산', '#주말'],
-        maxParticipants: 5,
-        personal_preferences: '초보자 환영'
-      }
+      title: 'Mate 게시글 제목',
+      description: '게시글 내용\n상세 설명 / 준비물 / 난이도 등',
+      locationTag: '서울',
+      activityTag: '등산',
+      date: '2024-09-15',
+      hashtags: ['#등산', '#주말'],
+      maxParticipants: 5,
+      personal_preferences: '초보자 환영'
+    }
     : {
-        title: 'Mentor/Mentee 게시글 제목',
-        description: '멘토링 내용\n상세 설명 / 커리큘럼 등',
-        locationTag: '온라인',
-        activityTag: '프로그래밍',
-        date: '2024-09-20',
-        price: 50000,
-        maxMentees: 3
-      };
+      title: 'Mentor/Mentee 게시글 제목',
+      description: '멘토링 내용\n상세 설명 / 커리큘럼 등',
+      locationTag: '온라인',
+      activityTag: '프로그래밍',
+      date: '2024-09-20',
+      price: 50000,
+      maxMentees: 3
+    };
+
+  useEffect(() => {
+    // 실제 구현 시 API에서 사용자의 채팅방 목록을 가져와야 함
+    // 여기서는 더미 데이터로 대체
+    setUserChatRooms(['66decd1dc59913e163354677', '66decd1dc59913e163354678']);
+  }, []);
 
   const handleJoinChat = () => {
     Alert.alert(

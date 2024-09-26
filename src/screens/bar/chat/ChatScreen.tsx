@@ -8,12 +8,23 @@ import {
   FlatList, 
   SafeAreaView,
   Image,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { MateStackParamList } from '@/navigations/home/MateNavigator';
 
-type ChatRoomScreenProps = StackScreenProps<MateStackParamList, 'ChatRoom'>;
+type ChatRoomParams = {
+  chatRoomId: string;
+  userId: string;
+  onLeaveChatRoom?: (chatRoomId: string) => void;
+};
+
+type ChatRoomScreenProps = StackScreenProps<MateStackParamList, 'ChatRoom'> & {
+  route: {
+    params: ChatRoomParams;
+  };
+};
 
 interface Message {
   id: string;
@@ -25,7 +36,7 @@ interface Message {
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 function ChatRoomScreen({ route, navigation }: ChatRoomScreenProps) {
-  const { chatRoomId, userId } = route.params;
+  const { chatRoomId, userId, onLeaveChatRoom } = route.params;
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const flatListRef = useRef<FlatList>(null);
@@ -57,6 +68,33 @@ function ChatRoomScreen({ route, navigation }: ChatRoomScreenProps) {
     }, 100);
   };
 
+  const handleLeaveChatRoom = () => {
+    Alert.alert(
+      "채팅방 나가기",
+      "나가시겠습니까?",
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        {
+          text: "예",
+          onPress: () => {
+            if (onLeaveChatRoom) {
+              onLeaveChatRoom(chatRoomId);
+            }
+            Alert.alert("알림", "채팅방에서 나갔습니다.", [
+              {
+                text: "확인",
+                onPress: () => navigation.goBack()
+              }
+            ]);
+          }
+        }
+      ]
+    );
+  };
+
   const renderMessage = ({ item }: { item: Message }) => (
     <View style={[styles.messageBubble, item.sender === userId ? styles.userMessage : styles.otherMessage]}>
       <Text style={[styles.messageText, item.sender === userId ? styles.userMessageText : styles.otherMessageText]}>{item.text}</Text>
@@ -74,7 +112,7 @@ function ChatRoomScreen({ route, navigation }: ChatRoomScreenProps) {
           />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>같이 스키탈 사람</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleLeaveChatRoom}>
           <Text style={styles.leaveButton}>나가기</Text>
         </TouchableOpacity>
       </View>
